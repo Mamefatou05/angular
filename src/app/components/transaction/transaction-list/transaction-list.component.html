@@ -1,0 +1,93 @@
+<div class="bg-white rounded-lg shadow-sm p-3">
+  <div class="flex justify-between items-center mb-3">
+    <div class="flex items-center gap-2">
+      <svg class="w-5 h-5 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M7 12l3-3m0 0l3 3m-3-3v7m6-2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h2 class="text-xl font-medium">Activité Récente</h2>
+    </div>
+    <div class="flex gap-3">
+      <button (click)="onFilter()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 hover:bg-gray-100">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414v6.586a1 1 0 01-1.414.914l-2-1A1 1 0 0110 19.414V13.414L3.293 7.293A1 1 0 013 6.586V4z" stroke-width="2"/>
+        </svg>
+        Filtrer
+      </button>
+      <button (click)="onSort()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 hover:bg-gray-100">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 4h13M3 8h9M3 12h5m8 0l-4-4m4 4l-4 4" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Trier
+      </button>
+      <button (click)="viewAll()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 hover:bg-gray-100">
+        <span class="text-lg">⋯</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tableau -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+      <tr class="text-sm text-gray-500 font-medium uppercase">
+        <th class="px-4 py-2 text-left">Type</th>
+        <th class="px-4 py-2 text-left">Montant</th>
+        <th class="px-4 py-2 text-left">État</th>
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let transaction of displayedTransactions" class="hover:bg-gray-100">
+        <!-- Type Column -->
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-3">
+            <div [ngClass]="{'bg-green-100': getTransactionType(transaction) === 'REÇU',
+                              'bg-blue-100': getTransactionType(transaction) === 'ENVOYÉ'}"
+                 class="w-10 h-10 rounded-full flex items-center justify-center">
+                <span [ngClass]="{'text-green-600': getTransactionType(transaction) === 'REÇU',
+                                 'text-blue-600': getTransactionType(transaction) === 'ENVOYÉ'}"
+                      class="text-lg">
+                  {{ getTransactionType(transaction) === 'ENVOYÉ' ? '↑' : '+' }}
+                </span>
+            </div>
+            <div>
+              <div class="font-medium">{{ getTransactionPartner(transaction) }}</div>
+              <div class="text-sm text-gray-500">{{ transaction.createdAt | date:'MMM dd, yyyy' }}</div>
+            </div>
+          </div>
+        </td>
+
+        <!-- Amount Column -->
+        <td class="px-4 py-3">
+          <div class="font-medium">
+            {{ getAmountPrefix(transaction) }}{{ transaction.amount | currency:'EUR':'symbol':'1.0-0' }}
+          </div>
+          <div class="text-sm text-gray-500">
+            {{ transaction.feeAmount | currency:'USD':'symbol':'1.0-0' }} <!-- Taux de conversion approximatif -->
+          </div>
+        </td>
+
+        <!-- Status Column -->
+        <td class="px-4 py-3">
+            <span [ngClass]="{
+              'bg-green-100 text-green-600': transaction.status === 'COMPLETED',
+              'bg-gray-100 text-gray-600': transaction.status === 'PENDING'
+            }" class="px-3 py-1 rounded-full text-sm font-medium">
+              {{ transaction.status }}
+            </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-8">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && displayedTransactions.length === 0"
+       class="text-center py-8 text-gray-500">
+    Aucune transaction trouvée
+  </div>
+</div>

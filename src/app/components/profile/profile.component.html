@@ -1,0 +1,79 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="max-w-5xl w-full mx-auto p-8 bg-white rounded-3xl shadow-2xl backdrop-blur-sm bg-white/90 relative overflow-hidden overflow-y-auto" style="max-height: 850px;">
+
+    <!-- Dégradé de fond avec bord arrondi -->
+    <div class="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-red-500 to-transparent rounded-b-full"></div>
+
+    <!-- Profil et informations générales -->
+    <ng-container *ngIf="user">
+      <ng-container *ngIf="!isEditMode; else editModeContent">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-10 relative pt-24">
+
+          <!-- Section Profil avec animation sur le survol -->
+          <div class="relative group" *ngIf="!isEditMode">
+            <img
+              [src]="user.photo || 'assets/images/default-avatar.png'"
+              [alt]="'Photo de ' + user.firstName"
+              class="w-40 h-40 rounded-full object-cover border-4 border-gray-300 shadow-xl transition-transform transform hover:scale-105">
+            <div *ngIf="user.isActive" class="absolute bottom-3 right-3 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow"></div>
+            <button
+              (click)="isEditMode = true"
+              class="w-full flex items-center justify-center px-3 py-3 bg-blue-500 text-white rounded-full transition-all duration-300 hover:bg-blue-600 shadow-lg transform hover:scale-105">
+              <i class="fas fa-user-edit w-6"></i>
+              <span class="ml-4 font-medium">Modifier le profil</span>
+            </button>
+            <button
+              (click)="logout()"
+              class="w-full flex items-center justify-center mt-4 px-3 py-3 bg-red-500 text-white rounded-full transition-all duration-300 hover:bg-red-600 shadow-lg transform hover:scale-105">
+              <i class="fas fa-sign-out-alt w-6"></i>
+              <span class="ml-4 font-medium">Se déconnecter</span>
+            </button>
+          </div>
+
+          <!-- Section d'Information du Profil -->
+          <div class="flex-1 w-full text-center md:text-left">
+            <div *ngIf="!isEditMode" class="mb-8">
+              <h2 class="text-4xl font-bold text-gray-800 mb-2">
+                {{ user.firstName }} {{ user.lastName }}
+              </h2>
+              <p class="text-gray-500 text-lg">{{ user.email }}</p>
+              <p class="text-gray-500">{{ user.phoneNumber }}</p>
+              <div class="mt-4">
+                <span [class]="getRoleBadgeClass(user.role.name)">
+                  {{ user.role.name }}
+                </span>
+                <span [class]="getKycStatusBadgeClass(user.kycStatus)" class="ml-2">
+                  {{ user.kycStatus }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Section de statistiques avec des cartes -->
+            <div *ngIf="!isEditMode" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div *ngFor="let wallet of user.wallets" class="p-6 bg-blue-100 rounded-2xl text-center shadow-md transition hover:shadow-lg hover:bg-blue-200">
+                <p class="text-sm text-gray-600">Solde {{ wallet.currency }}</p>
+                <p class="text-xl font-semibold">{{ wallet.balance }} €</p>
+              </div>
+              <div class="p-6 bg-green-100 rounded-2xl text-center shadow-md transition hover:shadow-lg hover:bg-green-200">
+                <p class="text-sm text-gray-600">Contacts</p>
+                <p class="text-xl font-semibold">{{ user.contact?.length || 0 }}</p>
+              </div>
+              <div class="p-6 bg-purple-100 rounded-2xl text-center shadow-md transition hover:shadow-lg hover:bg-purple-200">
+                <p class="text-sm text-gray-600">Transactions</p>
+                <p class="text-xl font-semibold">{{ user.transactions?.length || 0 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #editModeContent>
+        <app-edit-profile
+          [user]="user"
+          (cancelEdit)="isEditMode = false"
+          (profileUpdated)="onProfileUpdated($event)">
+        </app-edit-profile>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

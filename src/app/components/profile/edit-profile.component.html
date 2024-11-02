@@ -1,0 +1,173 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-8 max-w-4xl mx-auto p-10 bg-white rounded-3xl shadow-2xl">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- Ajout d'image avec preview -->
+    <div class="col-span-2 flex items-center justify-center relative">
+      <img
+        [src]="previewUrl || 'assets/images/default-avatar.png'"
+        class="w-32 h-32 rounded-full border-4 border-blue-100 shadow-lg object-cover"
+      >
+      <label for="file-input" class="absolute bottom-0 right-0 mb-1 mr-1 cursor-pointer">
+        <i class="fas fa-pencil-alt text-blue-500 bg-white rounded-full p-1 shadow-md hover:bg-blue-50"></i>
+      </label>
+      <input
+        id="file-input"
+        type="file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+        class="hidden"
+      >
+    </div>
+
+    <!-- Champs de formulaire en mode "material" -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Prénom</label>
+      <input
+        type="text"
+        formControlName="firstName"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+    </div>
+
+    <div class="col-span-1">
+      <label class="block text-sm font-semibold text-gray-700">Nom</label>
+      <input
+        type="text"
+        formControlName="lastName"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+    </div>
+
+    <!-- Champs Email -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['email']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['email'][0] }}
+      </div>
+    </div>
+
+    <!-- Champs Téléphone -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+      <label class="block text-sm font-semibold text-gray-700">Téléphone</label>
+      <input
+        type="tel"
+        formControlName="phoneNumber"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['phoneNumber']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['phoneNumber'][0] }}
+      </div>
+    </div>
+
+    <!-- Adresse -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Adresse</label>
+      <input
+        type="text"
+        formControlName="address"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['address']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['address'][0] }}
+      </div>
+    </div>
+
+    <!-- Ville -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Ville</label>
+      <input
+        type="text"
+        formControlName="city"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['city']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['city'][0] }}
+      </div>
+    </div>
+
+    <!-- Pays -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+      <label class="block text-sm font-semibold text-gray-700">Pays</label>
+      <input
+        type="text"
+        formControlName="country"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['country']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['country'][0] }}
+      </div>
+    </div>
+
+    <!-- Date de naissance -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Date de Naissance</label>
+      <input
+        type="date"
+        formControlName="dateOfBirth"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['dateOfBirth']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['dateOfBirth'][0] }}
+      </div>
+    </div>
+
+    <!-- Mot de passe actuel -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+      <label class="block text-sm font-semibold text-gray-700">Mot de Passe Actuel</label>
+      <input
+        type="password"
+        formControlName="currentPassword"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['currentPassword']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['currentPassword'][0] }}
+      </div>
+    </div>
+
+    <!-- Nouveau mot de passe -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+    <label class="block text-sm font-semibold text-gray-700">Nouveau Mot de Passe</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="mt-2 block w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="validationErrors['password']" class="text-red-500 text-sm mt-1">
+        {{ validationErrors['password'][0] }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Boutons de soumission -->
+  <div class="flex justify-end space-x-6 mt-8">
+    <button
+      type="button"
+      (click)="cancel()"
+      class="px-6 py-3 border border-gray-300 rounded-full shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-100 transition transform hover:scale-105"
+    >
+      Annuler
+    </button>
+    <button
+      type="submit"
+      [disabled]="updating"
+      class="px-6 py-3 border border-transparent rounded-full shadow-sm text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600 transition transform hover:scale-105"
+    >
+      {{ updating ? 'Mise à jour...' : 'Sauvegarder' }}
+    </button>
+  </div>
+</form>
