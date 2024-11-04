@@ -4,6 +4,7 @@ import { UserRole } from '../../models/user-role.enum';
 import {DashboardAdminComponent} from '../admin/dashboard-admin/dashboard-admin.component';
 import {DashboardClientComponent} from '../client/dashboard/dashboard-client.component';
 import {NgIf} from '@angular/common';
+import {DashboardAgentComponent} from '../agent/dashboard-agent/dashboard-agent.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,7 @@ import {NgIf} from '@angular/common';
     DashboardAdminComponent,
     DashboardClientComponent,
     NgIf,
+    DashboardAgentComponent,
     //  DashboardAgentComponent
   ],
   templateUrl: './dashboard.component.html',

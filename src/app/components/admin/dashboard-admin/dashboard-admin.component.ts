@@ -3,6 +3,7 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { StatCardComponent } from './component/stat-card.component';
 import { QuickActionsComponent } from './component/quick-actions.component';
 import { HeaderComponent } from './component/header.component';
+import {TransactionListComponent} from '../../transaction/transaction-list/transaction-list.component';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -14,7 +15,8 @@ import { HeaderComponent } from './component/header.component';
     DatePipe,
     StatCardComponent,
     QuickActionsComponent,
-    HeaderComponent
+    HeaderComponent,
+    TransactionListComponent
   ]
 })
 export class DashboardAdminComponent {

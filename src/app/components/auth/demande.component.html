@@ -1,59 +1,179 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 p-4">
-  <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all hover:scale-105">
-    <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-800">Demande de compte</h2>
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-2xl">
+    <div class="px-8 py-6 border-b border-gray-200">
+      <h2 class="text-3xl font-bold text-gray-900">Créer un compte</h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Remplissez le formulaire ci-dessous pour commencer à utiliser notre service de transfert d'argent
+      </p>
+    </div>
 
-    <form (ngSubmit)="onSubmit()" class="space-y-4">
-      <div>
-        <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-        <input type="text" id="firstName" [(ngModel)]="demande.firstName" name="firstName"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               required>
+    <form (ngSubmit)="onSubmit()" class="px-8 py-4 space-y-6">
+      <!-- Informations personnelles -->
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Prénom</label>
+            <input
+              type="text"
+              [(ngModel)]="demande.firstName"
+              name="firstName"
+              class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Nom</label>
+            <input
+              type="text"
+              [(ngModel)]="demande.lastName"
+              name="lastName"
+              class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+            <input
+              type="tel"
+              [(ngModel)]="demande.phoneNumber"
+              name="phoneNumber"
+              class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              pattern="\+221 7[0-9] [0-9]{3} [0-9]{2} [0-9]{2}"
+              placeholder="+221 7X XXX XX XX"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              [(ngModel)]="demande.email"
+              name="email"
+              class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-        <input type="text" id="lastName" [(ngModel)]="demande.lastName" name="lastName"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               required>
+      <!-- Upload des documents -->
+      <div class="space-y-6">
+        <div class="border-t border-gray-200 pt-6">
+          <h3 class="text-lg font-medium text-gray-900">Documents d'identité</h3>
+          <p class="mt-1 text-sm text-gray-500">
+            Pour votre sécurité, nous avons besoin d'une copie de votre carte d'identité
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Photo recto de la carte d'identité
+            </label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+              <div class="space-y-1 text-center">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label
+                    for="idCardFront"
+                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                  >
+                    <span>Choisir un fichier</span>
+                    <input
+                      id="idCardFront"
+                      type="file"
+                      (change)="onIdCardFrontSelected($event)"
+                      class="sr-only"
+                      accept="image/*"
+                      required
+                    />
+                  </label>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG jusqu'à 10MB</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Photo verso de la carte d'identité
+            </label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+              <div class="space-y-1 text-center">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label
+                    for="idCardBack"
+                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                  >
+                    <span>Choisir un fichier</span>
+                    <input
+                      id="idCardBack"
+                      type="file"
+                      (change)="onIdCardBackSelected($event)"
+                      class="sr-only"
+                      accept="image/*"
+                      required
+                    />
+                  </label>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG jusqu'à 10MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
-        <input type="tel" id="phone" [(ngModel)]="demande.phoneNumber" name="phoneNumber"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               required>
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="rounded-md bg-red-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700">{{ errorMessage }}</p>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" [(ngModel)]="demande.email" name="email"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               required>
-      </div>
-
-      <div>
-        <label for="idCardFront" class="block text-sm font-medium text-gray-700">Photo recto de la carte d'identité</label>
-        <input type="file" id="idCardFront" (change)="onIdCardFrontSelected($event)"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               accept="image/*" required>
-      </div>
-
-      <div>
-        <label for="idCardBack" class="block text-sm font-medium text-gray-700">Photo verso de la carte d'identité</label>
-        <input type="file" id="idCardBack" (change)="onIdCardBackSelected($event)"
-               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-               accept="image/*" required>
-      </div>
-
-      <div class="pt-2">
-        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+      <!-- Bouton de soumission -->
+      <div class="flex items-center justify-end px-8 py-4 bg-gray-50 rounded-b-xl">
+        <button
+          type="submit"
+          class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
           Soumettre la demande
         </button>
       </div>
-
-      <div *ngIf="errorMessage" class="mt-2 text-red-600 text-sm text-center">
-        {{ errorMessage }}
-      </div>
     </form>
   </div>
-</div>

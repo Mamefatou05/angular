@@ -34,3 +34,9 @@ export interface Transaction {
     };
   };
 }
+export interface TransferFormData {
+  amount: number;
+  description?: string;
+  receiverPhoneNumber?: string;
+  senderPhoneNumber?:string
+}

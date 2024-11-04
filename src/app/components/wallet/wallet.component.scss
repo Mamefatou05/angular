@@ -1,0 +1,79 @@
+// src/app/components/wallet/wallet.component.scss
+.wallet {
+  padding: 0.75rem;
+  background: #f8fafc;
+
+  .loading {
+    text-align: center;
+    padding: 1rem;
+    color: #64748b;
+  }
+
+  .balance {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: white;
+
+    h2 {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .currencies {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+
+    .currency {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+      &.usd { border-left: 3px solid #22c55e; }
+      &.eur { border-left: 3px solid #3b82f6; }
+      &.gbp { border-left: 3px solid #6366f1; }
+
+      .currency-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+
+        .flag { font-size: 1rem; }
+        .code { font-weight: 600; }
+
+        .trend {
+          margin-left: auto;
+          padding: 0.125rem 0.375rem;
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          background: #fee2e2;
+          color: #dc2626;
+
+          &.up {
+            background: #dcfce7;
+            color: #16a34a;
+          }
+        }
+      }
+
+      .amount {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1f2937;
+      }
+    }
+  }
+}

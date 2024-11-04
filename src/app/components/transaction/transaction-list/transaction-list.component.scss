@@ -1,0 +1,45 @@
+.transaction-list {
+  .transaction-list__header {
+    @apply bg-gray-100 rounded-t-lg;
+  }
+
+  .transaction-list__content {
+    @apply bg-white rounded-b-lg shadow-lg;
+  }
+
+  .transaction-grid__header {
+    @apply text-gray-500 uppercase tracking-wide text-xs;
+  }
+
+  .transaction-grid__item {
+    .transaction-type {
+      @apply flex items-center space-x-2;
+      .type-icon {
+        @apply w-5 h-5;
+      }
+    }
+
+    .transaction-amount {
+      .amount--received {
+        @apply text-green-600;
+      }
+      .amount--sent {
+        @apply text-red-600;
+      }
+    }
+
+    .status-badge {
+      @apply px-2 py-1 rounded-full text-xs font-semibold;
+    }
+
+    .transaction-method {
+      @apply text-gray-600;
+    }
+  }
+
+  .loading-state {
+    .loading-spinner {
+      @apply w-6 h-6 border-4 border-gray-300 border-t-primary-500 rounded-full animate-spin;
+    }
+  }
+}

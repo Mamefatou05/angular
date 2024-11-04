@@ -5,10 +5,11 @@ import {ContactService} from '../../../services/contact.service';
 import {UserService} from '../../../services/user.service';
 import {forkJoin} from 'rxjs';
 import {TransactionListComponent} from '../../transaction/transaction-list/transaction-list.component';
-import {ContactListComponent} from '../../contact/contact-list/contact-list.component';
+import {ContactsComponent} from '../../contacts/contacts.component';
 import {WalletComponent} from '../../wallet/wallet.component';
 import {NgIf} from '@angular/common';
 import {QrCodeComponent} from '../../qr-code/qr-code.component';
+import {TransferButtonComponent} from '../../transfert/bouton-transfert.component';
 
 @Component({
   selector: 'app-dashboard-client',
@@ -16,16 +17,16 @@ import {QrCodeComponent} from '../../qr-code/qr-code.component';
   standalone:true,
   imports: [
     TransactionListComponent,
-    ContactListComponent,
+    ContactsComponent,
     WalletComponent,
     NgIf,
-    QrCodeComponent
+    QrCodeComponent,
+    TransferButtonComponent,
   ],
 })
 export class DashboardClientComponent implements OnInit {
   loading = true;
   error: string | null = null;
-
   constructor(
     private walletService: WalletService,
     private transactionService: TransactionService,

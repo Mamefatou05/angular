@@ -3,3 +3,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  align-items: center;
+  background-color: #f5f5f5; /* ou la couleur de fond que vous préférez */
+}
+
+* {
+  box-sizing: border-box;
+}
+.app-container {
+  display: flex;
+  width: auto; /* Largeur automatique pour ne pas s'étendre */
+  min-height: 85vh;
+  padding: 20px; /* Ajoute un peu d'espace autour du contenu */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ajoute une ombre pour le style */
+  border-radius: 8px; /* Coins arrondis */
+
+  /* Style uniquement sur les grands écrans */
+  @apply lg:min-w-[1000px]; /* Applique min-width: 900px sur les écrans larges */
+}

@@ -8,5 +8,5 @@ export interface Contact {
   createdAt: Date;
   updatedAt: Date;
   user: User;
-  contact: User;
+  contact?: User;
 }

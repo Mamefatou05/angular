@@ -1,24 +1,37 @@
-<div class="bg-gray-100 min-h-screen flex items-center justify-center p-4 w-full">
+<div class="">
   <ng-container *ngIf="!loading; else loadingTemplate">
-    <div class="bg-white shadow-2xl rounded-lg p-12 w-full max-w-7xl mx-auto flex"> <!-- Utilisation de flex pour contenir les colonnes -->
-
-      <!-- Colonne pour les transactions -->
-      <div class="w-1/3 p-4">
-        <h2 class="text-2xl font-bold mb-4">Transactions</h2>
-        <app-transaction-list></app-transaction-list>
-      </div>
+    <div class="grid gap-6 grid-cols-1 md:grid-cols-3 pl-4 pt-4">
 
       <!-- Colonne pour le portefeuille -->
-      <div class="w-1/3 p-4">
+      <div class="w-full p-4 bg-white rounded-lg shadow-md md:col-span-3 lg:col-span-3">
         <h2 class="text-2xl font-bold mb-4">Mon Portefeuille</h2>
         <app-wallet></app-wallet>
       </div>
 
-      <!-- Colonne pour le transfert rapide -->
-      <div class="w-1/3 p-4">
+      <!-- Colonne pour le transfert rapide (occupe 1/3) -->
+      <div class="w-full p-6 bg-white rounded-lg shadow-md lg:col-span-1">
         <h2 class="text-2xl font-bold mb-4">Transfert Rapide</h2>
         <app-qr-code></app-qr-code>
+        <app-transfer-button />
+
       </div>
+
+      <!-- Colonne pour contacts et transactions superposés (occupe 2/3) -->
+      <div class="w-full lg:col-span-2 flex flex-col gap-4">
+
+        <!-- Section Contacts -->
+        <div class="flex-1  p-6  bg-white rounded-lg shadow-md">
+          <app-contacts></app-contacts>
+        </div>
+
+        <!-- Section Transactions -->
+        <div class="flex-1  p-6  bg-white rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-4">Transactions</h2>
+          <app-transaction-list></app-transaction-list>
+        </div>
+
+      </div>
+
     </div>
   </ng-container>
 

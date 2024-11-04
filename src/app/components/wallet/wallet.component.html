@@ -1,28 +1,38 @@
-<div class="bg-teal-800 text-white p-4 rounded-2xl w-full">
-  <!-- En-tête avec balance -->
-  <div class="space-y-2">
-    <div class="text-sm text-gray-300">Total Balance</div>
-    <div class="flex items-baseline gap-3">
-      <div class="text-4xl font-semibold" *ngIf="!loading">
-        {{ balance | currency:'EUR':'symbol':'1.2-2' }}
-      </div>
-      <div class="text-emerald-400 text-sm font-medium">15.8% ↗</div>
-    </div>
-  </div>
+<div class="wallet">
+  <div *ngIf="loading" class="loading">Chargement...</div>
 
-  <!-- Boutons -->
-  <div class="flex flex-wrap gap-2 mt-6">
-    <button class="bg-emerald-400 hover:bg-emerald-500 text-black px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto">
-      <i class="fas fa-plus"></i> Add
-    </button>
-    <button class="bg-teal-700 hover:bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto">
-      <i class="fas fa-arrow-up-right"></i> Send
-    </button>
-    <button class="bg-teal-700 hover:bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto">
-      <i class="fas fa-sync"></i> Request
-    </button>
-    <button class="hover:bg-teal-700 text-white px-2 py-2 rounded-lg ml-auto w-full sm:w-auto">
-      <i class="fas fa-ellipsis-h"></i>
-    </button>
-  </div>
+  <ng-container *ngIf="!loading">
+    <div class="balance">
+      <h2>Solde
+        <button (click)="toggleBalanceVisibility()">
+          <i class="fas" [ngClass]="isBalanceVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+
+      </h2>
+      <p *ngIf="isBalanceVisible; else hiddenBalance">{{ balance | currency:'CFA':'symbol':'1.0-0' }}</p>
+      <ng-template #hiddenBalance>
+        <p>******</p> <!-- Affiche des étoiles ou des pointillés -->
+      </ng-template>
+    </div>
+
+    <div class="currencies">
+      <div *ngFor="let currency of exchangeRates"
+           class="currency"
+           [ngClass]="currency.code.toLowerCase()">
+        <div class="currency-header">
+          <span class="flag">{{ currency.flag }}</span>
+          <span class="code">{{ currency.code }}</span>
+          <span class="trend" [class.up]="currency.trend.startsWith('+')">{{ currency.trend }}</span>
+        </div>
+        <div class="amount">
+          <span *ngIf="isBalanceVisible; else hiddenConvertedBalance">
+            {{ getConvertedBalance(currency.code) | currency:currency.code:'symbol':'1.0-0' }}
+          </span>
+          <ng-template #hiddenConvertedBalance>
+            <span>******</span> <!-- Affiche des étoiles ou des pointillés -->
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

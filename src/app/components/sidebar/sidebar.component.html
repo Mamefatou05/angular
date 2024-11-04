@@ -1,0 +1,72 @@
+<div class="flex flex-col h-full bg-gradient-to-r from-indigo-600 to-indigo-400 text-white p-6 rounded-lg shadow-lg">
+  <!-- User Profile Section -->
+  <ng-container *ngIf="user">
+    <div class="flex flex-col items-center space-y-6 mb-8">
+      <!-- Photo Container -->
+      <div class="relative">
+        <img
+          [src]="user.photo || 'assets/images/default-avatar.png'"
+          [alt]="'Photo de ' + user.firstName"
+          class="w-28 h-28 md:w-24 md:h-24 rounded-full object-cover border-4 border-white shadow-xl">
+        <div
+          *ngIf="user.isActive"
+          class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-md">
+        </div>
+      </div>
+      <!-- Section d'Information du Profil -->
+      <div class="text-center md:text-left">
+        <h2 class="font-bold text-lg md:text-xl mb-1">
+          {{ user.firstName }} {{ user.lastName }}
+        </h2>
+        <p class="text-md text-center">{{ user.email }}</p>
+        <p class="text-md text-center">{{ user.phoneNumber }}</p>
+        <div class="mt-4 flex justify-center md:justify-start space-x-2">
+          <span [class]="getRoleBadgeClass(user.role.name)">
+            {{ user.role.name }}
+          </span>
+          <span [class]="getKycStatusBadgeClass(user.kycStatus)">
+            {{ user.kycStatus }}
+          </span>
+        </div>
+      </div>
+      <!-- Profile Button -->
+
+      <button
+        class="w-full max-w-xs px-4 py-2 bg-indigo-600 text-white text-sm rounded-full transition-transform duration-300
+               hover:bg-blue-700 active:scale-95 shadow-lg flex items-center justify-center space-x-2">
+        <a routerLink="/edit-profile"> <i class="fas fa-user-edit"></i>
+          <span>Modifier le profil</span></a>
+
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- Navigation Menu -->
+  <nav class="flex-1">
+    <div class="flex flex-col space-y-2">
+      <a *ngFor="let item of menuItems"
+         [routerLink]="item.link"
+         routerLinkActive="active-link"
+         class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 hover:bg-white/10 relative group">
+        <!-- Active Indicator -->
+        <div class="absolute left-0 w-1 h-full bg-white scale-y-0 group-[.active-link]:scale-y-100
+                    transition-transform rounded-r"></div>
+        <!-- Icon and Label -->
+        <i class="fas {{item.icon}} w-5 h-5 mr-3"></i>
+        <span class="text-sm font-medium">{{ item.label }}</span>
+        <!-- Hover/Active Background -->
+        <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5
+                    group-[.active-link]:bg-white/10 rounded-lg transition-colors -z-10"></div>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Logout Button -->
+  <button
+    (click)="logout()"
+    class="w-full mt-4 px-4 py-3 bg-indigo-600 text-white rounded-lg transition-all
+           hover:bg-red-700 active:scale-95 shadow-lg flex items-center justify-center space-x-2">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Se déconnecter</span>
+  </button>
+</div>

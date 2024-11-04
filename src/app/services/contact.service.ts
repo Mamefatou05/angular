@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
 import { ApiResponse } from '../models/api-response.interface';
 import { Contact } from '../models/contact.model';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +10,34 @@ import { HttpParams } from '@angular/common/http';
 export class ContactService extends ApiService {
   private readonly BASE_PATH = '/contacts';
 
+  // Créer un nouveau contact
+  createContactByPhone(phoneNumber: string, nickname?: string): Observable<ApiResponse<Contact>> {
+    return this.post<Contact>(this.BASE_PATH, { phoneNumber, nickname });
+  }
+
+  // Récupérer tous les contacts de l'utilisateur
   getContacts(): Observable<ApiResponse<Contact[]>> {
     return this.get<Contact[]>(this.BASE_PATH);
   }
 
-  addContact(contact: Partial<Contact>): Observable<ApiResponse<Contact>> {
-    return this.post<Contact>(this.BASE_PATH, contact);
+  // Mettre à jour un contact
+  updateContact(id: string, nickname: string): Observable<ApiResponse<Contact>> {
+    return this.put<Contact>(`${this.BASE_PATH}/${id}`, { nickname });
   }
 
-  updateContact(id: string, contact: Partial<Contact>): Observable<ApiResponse<Contact>> {
-    return this.put<Contact>(`${this.BASE_PATH}/${id}`, contact);
-  }
-
+  // Supprimer un contact
   deleteContact(id: string): Observable<ApiResponse<void>> {
     return this.delete<void>(`${this.BASE_PATH}/${id}`);
   }
 
-  getGoogleContacts(): Observable<ApiResponse<Contact[]>> {
-    return this.get<Contact[]>(`${this.BASE_PATH}/google`);
+  // Récupérer les contacts Google importés
+  getGoogleContacts(): Observable<ApiResponse<{
+    hasGoogleAuth: boolean;
+    contacts: Contact[];
+  }>> {
+    return this.get<{
+      hasGoogleAuth: boolean;
+      contacts: Contact[];
+    }>(`${this.BASE_PATH}/google`);
   }
 }

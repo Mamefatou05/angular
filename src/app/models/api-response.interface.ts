@@ -4,4 +4,10 @@ export interface ApiResponse<T> {
   message?: string;
   status: number;
   error?: any;
+  pagination?: {
+    totalPages: number;
+    currentPage: number;
+    totalItems: number;
+    pageSize: number;
+  };
 }

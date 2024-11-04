@@ -25,6 +25,7 @@ export class AuthService extends ApiService {
 
   // Connexion
   login(credentials: LoginCredentials): Observable<ApiResponse<any>> {
+    console.log(credentials);
     return this.post<any>('/auth/login', credentials)
       .pipe(
         tap({
@@ -45,13 +46,18 @@ export class AuthService extends ApiService {
   // Actualiser le token
   refreshToken(): Observable<ApiResponse<any>> {
     const refreshToken = localStorage.getItem('refreshToken');
-
+    console.log('&"&é"&é&à')
     return this.post<any>('/auth/refresh-token', { refreshToken })
       .pipe(
         tap({
+
           next: (response) => {
+            console.log('refreshToken')
+
             if (response.data?.accessToken) {
+              console.log('Access token')
               console.log(response.data?.accessToken)
+
 
               this.setAccessToken(response.data.accessToken);
             }

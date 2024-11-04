@@ -92,8 +92,8 @@ export class LoginComponent {
       .catch(err => console.error('Erreur navigation après QR:', err));
   }
 
-  onRegister() {
-    this.router.navigate(['/register'])
+  onRequest() {
+    this.router.navigate(['/demande'])
       .then(() => console.log('Navigation vers register réussie'))
       .catch(err => console.error('Erreur navigation vers register:', err));
   }
