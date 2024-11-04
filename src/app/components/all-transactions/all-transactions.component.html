@@ -1,4 +1,3 @@
-<!-- all-transactions.component.html -->
 <div class="container mx-auto px-4 py-8">
   <!-- En-tête et Filtres -->
   <div class="mb-8">
@@ -80,176 +79,45 @@
           <div class="flex-grow">
             <div class="flex flex-col md:flex-row md:items-center gap-2">
               <h3 class="font-semibold">{{transaction.type}}</h3>
-              <span [class]="getStatusInfo(transaction.status).color + ' ' + getStatusInfo(transaction.status).background + ' px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1'">
-                <i [class]="'fas fa-' + getStatusInfo(transaction.status).icon"></i>
+              <span [class]="getStatusInfo(transaction.status).color + ' ' + getStatusInfo(transaction.status).background + ' px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-2'">
+                    <i [class]="'fas fa-' + getStatusInfo(transaction.status).icon"></i>
                 {{transaction.status}}
-              </span>
+                  </span>
             </div>
-            <p class="text-sm text-gray-500">
-              {{transaction.createdAt | date:'dd MMM yyyy, HH:mm'}}
-            </p>
+            <div class="text-gray-500 text-sm mt-1">
+              {{transaction.createdAt | date:'dd MMM yyyy HH:mm'}}
+            </div>
           </div>
         </div>
 
         <!-- Montant -->
-        <div class="flex items-center gap-4">
-          <span class="font-mono text-lg font-semibold"
-                [class.text-green-600]="transaction.type === 'DEPOSIT'"
-                [class.text-red-600]="transaction.type === 'WITHDRAWAL'">
-            {{transaction.type === 'WITHDRAWAL' ? '-' : '+'}}{{transaction.amount | currency:'EUR'}}
-          </span>
+        <div class="text-right">
+          <div [class.text-green-600]="transaction.type === 'DEPOSIT'"
+               [class.text-red-600]="transaction.type === 'WITHDRAWAL'"
+               class="font-bold text-lg">
+            {{transaction.amount | currency:'EUR'}}
+          </div>
+          <div class="text-gray-500 text-sm">
+            Frais: {{transaction.feeAmount | currency:transaction.feeCurrency}}
+          </div>
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-center gap-4 mt-6">
-      <button
-        (click)="previousPage()"
-        [disabled]="currentPage === 1"
-        class="px-4 py-2 rounded-lg flex items-center gap-2 transition-all
-           disabled:opacity-50 disabled:cursor-not-allowed
-           bg-gray-100 hover:bg-gray-200 text-gray-700">
-        <i class="fas fa-chevron-left text-sm"></i>
-        Précédent
-      </button>
 
-      <span class="px-4 py-2 bg-white rounded-lg border text-sm font-medium text-gray-700">
-    Page {{ currentPage }} sur {{ totalPages }}
-  </span>
-
-      <button
-        (click)="nextPage()"
-        [disabled]="currentPage === totalPages"
-        class="px-4 py-2 rounded-lg flex items-center gap-2 transition-all
-           disabled:opacity-50 disabled:cursor-not-allowed
-           bg-gray-100 hover:bg-gray-200 text-gray-700">
-        Suivant
-        <i class="fas fa-chevron-right text-sm"></i>
-      </button>
-    </div>
+    <!-- Pagination -->
+    <app-pagination
+      *ngIf="totalPages > 1"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
   </div>
 
-  <!-- Vue Détails -->
-  <div *ngIf="isDetailView && selectedTransaction" class="bg-white rounded-xl shadow-lg p-6">
-    <!-- En-tête des détails -->
-    <div class="flex items-center gap-4 mb-8">
-      <div [class]="getTransactionColor(selectedTransaction.type) + ' w-16 h-16 rounded-full flex items-center justify-center'"
-           [class.bg-green-50]="selectedTransaction.type === 'DEPOSIT'"
-           [class.bg-red-50]="selectedTransaction.type === 'WITHDRAWAL'"
-           [class.bg-blue-50]="selectedTransaction.type === 'TRANSFERE'"
-           [class.bg-purple-50]="selectedTransaction.type === 'INVOICE'">
-        <i [class]="'fas fa-' + getTransactionIcon(selectedTransaction.type) + ' text-2xl'"></i>
-      </div>
-      <div>
-        <h2 class="text-2xl font-bold">{{selectedTransaction.type}}</h2>
-        <div class="mt-2">
-          <span [class]="getStatusInfo(selectedTransaction.status).color + ' ' + getStatusInfo(selectedTransaction.status).background + ' px-4 py-2 rounded-full text-sm font-medium inline-flex items-center gap-2'">
-            <i [class]="'fas fa-' + getStatusInfo(selectedTransaction.status).icon"></i>
-            {{selectedTransaction.status}}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Montant -->
-    <div class="bg-gray-50 rounded-xl p-8 mb-8 text-center">
-      <p class="text-gray-500 mb-2">Montant</p>
-      <p class="text-4xl font-bold"
-         [class.text-green-600]="selectedTransaction.type === 'DEPOSIT'"
-         [class.text-red-600]="selectedTransaction.type === 'WITHDRAWAL'">
-        {{selectedTransaction.amount | currency:'EUR'}}
-      </p>
-    </div>
-
-    <!-- Informations détaillées -->
-    <div class="grid md:grid-cols-2 gap-6">
-      <!-- Expéditeur -->
-      <div class="bg-white rounded-xl border p-6 hover:border-blue-500 transition-colors">
-        <h3 class="font-semibold mb-4 flex items-center gap-2 text-lg">
-          <i class="fas fa-user"></i>
-          Expéditeur
-        </h3>
-        <div class="space-y-4">
-          <div class="flex items-center gap-3 text-gray-600">
-            <i class="fas fa-user text-sm"></i>
-            <span>{{selectedTransaction.senderWallet?.user?.firstName}} {{selectedTransaction.senderWallet?.user?.lastName}}</span>
-          </div>
-          <div class="flex items-center gap-3 text-gray-600">
-            <i class="fas fa-phone text-sm"></i>
-            <span>{{selectedTransaction.senderWallet?.user?.phoneNumber}}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Destinataire -->
-      <div class="bg-white rounded-xl border p-6 hover:border-blue-500 transition-colors">
-        <h3 class="font-semibold mb-4 flex items-center gap-2 text-lg">
-          <i class="fas fa-user"></i>
-          Destinataire
-        </h3>
-        <div class="space-y-4">
-          <div class="flex items-center gap-3 text-gray-600">
-            <i class="fas fa-user text-sm"></i>
-            <span>{{selectedTransaction.receiverWallet?.user?.firstName}} {{selectedTransaction.receiverWallet?.user?.lastName}}</span>
-          </div>
-          <div class="flex items-center gap-3 text-gray-600">
-            <i class="fas fa-phone text-sm"></i>
-            <span>{{selectedTransaction.receiverWallet?.user?.phoneNumber}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Informations supplémentaires -->
-    <div class="mt-8 space-y-4 bg-gray-50 rounded-xl p-6">
-      <div class="grid md:grid-cols-2 gap-4">
-        <div class="flex items-center gap-3 text-gray-600">
-          <i class="fas fa-calendar text-sm"></i>
-          <span>Créé le: {{selectedTransaction.createdAt | date:'dd MMMM yyyy à HH:mm'}}</span>
-        </div>
-        <div class="flex items-center gap-3 text-gray-600">
-          <i class="fas fa-clock text-sm"></i>
-          <span>Mis à jour le: {{selectedTransaction.updatedAt | date:'dd MMMM yyyy à HH:mm'}}</span>
-        </div>
-        <div class="flex items-center gap-3 text-gray-600">
-          <i class="fas fa-dollar-sign text-sm"></i>
-          <span>Frais: {{selectedTransaction.feeAmount | currency:selectedTransaction.feeCurrency}}</span>
-        </div>
-        <div *ngIf="selectedTransaction.description" class="flex items-start gap-3 text-gray-600 md:col-span-2">
-          <i class="fas fa-comment text-sm mt-1"></i>
-          <span>{{selectedTransaction.description}}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="mt-8 flex flex-wrap gap-4 justify-end">
-      <button (click)="backToList()"
-              class="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2 text-gray-700">
-        <i class="fas fa-arrow-left"></i>
-        Retour à la liste
-      </button>
-
-      <button *ngIf="selectedTransaction.status === 'PENDING'"
-              class="px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-lg transition-colors flex items-center gap-2">
-        <i class="fas fa-check"></i>
-        Approuver
-      </button>
-
-      <button (click)="deleteTransaction(selectedTransaction.id)"
-              class="px-6 py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors flex items-center gap-2">
-        <i class="fas fa-trash"></i>
-        Supprimer
-      </button>
-    </div>
-  </div>
-
-  <!-- État vide -->
-  <div *ngIf="!isDetailView && filteredTransactions.length === 0"
-       class="text-center py-12 bg-white rounded-xl shadow-sm">
-    <div class="text-gray-400 mb-4">
-      <i class="fas fa-inbox text-4xl"></i>
-    </div>
-    <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune transaction trouvée</h3>
-    <p class="text-gray-500">Aucune transaction ne correspond aux critères sélectionnés.</p>
-  </div>
+  <!-- Vue Détaillée -->
+  <app-transaction-detail
+    *ngIf="isDetailView"
+    [transaction]="selectedTransaction"
+    (back)="backToList()"
+    (delete)="deleteTransaction($event)">
+  </app-transaction-detail>
 </div>

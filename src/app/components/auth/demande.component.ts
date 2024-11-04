@@ -54,7 +54,7 @@ export class DemandeComponent {
       next: (response) => {
         console.log('Demande soumise avec succès', response);
         // Rediriger vers une page de confirmation
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Erreur lors de la soumission de la demande', error);

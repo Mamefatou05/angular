@@ -36,6 +36,7 @@ export interface Transaction {
 }
 export interface TransferFormData {
   amount: number;
+  fees?: number;
   description?: string;
   receiverPhoneNumber?: string;
   senderPhoneNumber?:string

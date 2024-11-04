@@ -8,13 +8,15 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import {ApiService} from '../../services/api.service';
+import {PaginationComponent} from '../shared/pagination/pagination.component';
+import {TransactionDetailComponent} from './transaction-detail.component';
 
 @Component({
   selector: 'app-all-transactions',
   templateUrl: './all-transactions.component.html',
   styleUrls: ['./all-transactions.component.scss'],
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, DatePipe]
+  imports: [CommonModule, CurrencyPipe, DatePipe, PaginationComponent, TransactionDetailComponent]
 })
 export class AllTransactionsComponent implements OnInit {
   transactions: Transaction[] = [];
@@ -123,24 +125,16 @@ export class AllTransactionsComponent implements OnInit {
       // Implémentez la logique de suppression ici
     }
   }
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.reloadTransactions();
-    }
-  }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.reloadTransactions();
-    }
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.reloadTransactions();
   }
 
   reloadTransactions() {
     if (this.apiService.isAdmin()) {
       this.loadAllTransactions(this.currentPage, this.pageSize);
-    } else if (this.apiService.isClient()) {
+    } else {
       this.loadTransactionsByWallet(this.currentPage, this.pageSize);
     }
   }

@@ -31,6 +31,8 @@ export class DemandeFiltersComponent {
     @Output() filterChange = new EventEmitter<AccountRequestStatus | 'ALL'>();
     @Output() processApproved = new EventEmitter<void>();
 
+
+
     onFilterChange(status: AccountRequestStatus | 'ALL'): void {
         this.filterChange.emit(status);
     }

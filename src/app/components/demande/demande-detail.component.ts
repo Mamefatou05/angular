@@ -55,14 +55,16 @@ import {AccountRequestStatus, Demande} from '../../models/demande.model';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h4 class="text-sm font-medium text-gray-500 mb-2">Recto de la carte d'identité</h4>
-            <div class="bg-gray-200 rounded-lg overflow-hidden">
-              <img [src]="demande.idCardFrontPhoto" alt="Recto carte d'identité" class="w-full h-full object-contain">
+            <!-- Recto de la carte d'identité -->
+            <div class="bg-gray-200 rounded-lg overflow-hidden w-full md:w-64 h-auto md:h-48 mx-auto">
+              <img [src]="demande.idCardFrontPhoto" alt="Recto carte d'identité" class="w-full h-full object-cover">
             </div>
           </div>
           <div>
             <h4 class="text-sm font-medium text-gray-500 mb-2">Verso de la carte d'identité</h4>
-            <div class="bg-gray-200 rounded-lg  overflow-hidden">
-              <img [src]="demande.idCardBackPhoto" alt="Verso carte d'identité" class="w-full h-full object-contain">
+            <!-- Verso de la carte d'identité -->
+            <div class="bg-gray-200 rounded-lg overflow-hidden w-full md:w-72 h-auto md:h-48 mx-auto">
+              <img [src]="demande.idCardBackPhoto" alt="Verso carte d'identité" class="w-full h-full object-cover">
             </div>
           </div>
         </div>
@@ -110,5 +112,7 @@ export class DemandeDetailComponent {
       default:
         return `${baseClasses} bg-gray-100 text-gray-800`;
     }
+
   }
+
 }

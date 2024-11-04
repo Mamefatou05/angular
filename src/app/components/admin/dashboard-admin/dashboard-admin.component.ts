@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { StatCardComponent } from './component/stat-card.component';
-import { QuickActionsComponent } from './component/quick-actions.component';
+import { QuickCreateComponent } from '../../quick-actions/create/quick-create.component';
 import { HeaderComponent } from './component/header.component';
 import {TransactionListComponent} from '../../transaction/transaction-list/transaction-list.component';
 
@@ -14,7 +14,7 @@ import {TransactionListComponent} from '../../transaction/transaction-list/trans
     CurrencyPipe,
     DatePipe,
     StatCardComponent,
-    QuickActionsComponent,
+    QuickCreateComponent,
     HeaderComponent,
     TransactionListComponent
   ]
@@ -27,7 +27,7 @@ export class DashboardAdminComponent {
     totalUsers: 0,
     activeUsers: 0,
     totalTransactions: 0,
-    revenue: 0
+    totalAgent: 0
   };
 
   // Initialisation de la propriété loading
@@ -45,7 +45,7 @@ export class DashboardAdminComponent {
         totalUsers: 100,
         activeUsers: 75,
         totalTransactions: 50,
-        revenue: 2000
+        totalAgent: 10
       };
       this.loading = false; // Indique que le chargement est terminé
     }, 2000);

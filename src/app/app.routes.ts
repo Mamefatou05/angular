@@ -21,7 +21,4 @@ export const routes: Routes = [
   { path: 'transactions', component: AllTransactionsComponent },
   { path: 'edit-profile', component: EditProfileComponent },
   { path: 'transfer', component: TransferComponent }  // Ajoutez cette ligne pour la route du transfert
-
-
-
 ];

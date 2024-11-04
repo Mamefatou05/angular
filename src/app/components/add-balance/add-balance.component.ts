@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 
 @Component({
@@ -9,53 +9,52 @@ import { TransactionService } from '../../services/transaction.service';
     ReactiveFormsModule
   ],
   template: `
-    <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800">Ajouter du solde à un agent</h2>
-
-      <form [formGroup]="addBalanceForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
-            ID du portefeuille de l'agent
+    <form [formGroup]="addBalanceForm" (ngSubmit)="onSubmit()" class="w-full p-4 sm:p-6 lg:p-8 m-4 rounded-3xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Numéro du portefeuille de l'agent
           </label>
           <input
             type="text"
-            formControlName="userAgentWalletId"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            formControlName="agentphoneNumber"
+            class="w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
             Montant
           </label>
           <input
             type="number"
             formControlName="amount"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            class="w-full rounded-full border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
             Description
           </label>
           <textarea
             formControlName="description"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            class="w-full rounded-md border-gray-300 shadow-sm px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           ></textarea>
         </div>
+      </div>
 
+      <div class="flex flex-col sm:flex-row justify-end gap-4 sm:gap-6 mt-8">
         <button
           type="submit"
           [disabled]="addBalanceForm.invalid || isSubmitting"
-          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          class="w-full sm:w-auto px-6 py-3 border border-transparent rounded-full shadow-sm text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition transform hover:scale-105"
         >
           {{ isSubmitting ? 'Traitement en cours...' : 'Ajouter le solde' }}
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   `
-
 })
 export class AddBalanceComponent {
   addBalanceForm: FormGroup;
@@ -66,7 +65,7 @@ export class AddBalanceComponent {
     private transactionService: TransactionService
   ) {
     this.addBalanceForm = this.fb.group({
-      userAgentWalletId: ['', [Validators.required]],
+      agentphoneNumber: ['', [Validators.required]],
       amount: ['', [Validators.required, Validators.min(0)]],
       description: ['']
     });
@@ -78,11 +77,9 @@ export class AddBalanceComponent {
       this.transactionService.addBalanceToUserAgent(this.addBalanceForm.value)
         .subscribe({
           next: (response) => {
-            // Handle success
             console.log('Solde ajouté avec succès', response);
           },
           error: (error) => {
-            // Handle error
             console.error('Erreur lors de l\'ajout du solde', error);
           },
           complete: () => {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { NgIf } from '@angular/common';
 import { TransactionService } from '../../services/transaction.service';
 import { UserService } from '../../services/user.service';
-import {TransferFormData} from '../../models/transaction.model';
+import { TransferFormData } from '../../models/transaction.model';
 
 @Component({
   selector: 'app-transfer',
@@ -19,6 +19,7 @@ export class TransferComponent implements OnInit {
 
   transferForm: FormGroup;
   senderPhoneNumber: string | null = null;
+  totalAmount: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -27,18 +28,21 @@ export class TransferComponent implements OnInit {
   ) {
     this.transferForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0)]],
+      fees: ['', [Validators.required, Validators.min(0)]],
       description: [''],
       receiverPhoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]]
     });
+
+    // Observer les changements sur amount et fees
+    this.transferForm.get('amount')?.valueChanges.subscribe(() => this.updateTotalAmount());
+    this.transferForm.get('fees')?.valueChanges.subscribe(() => this.updateTotalAmount());
   }
 
   ngOnInit() {
-    // Si le numéro du destinataire est déjà fourni, on le pré-remplit
     if (this.receiverPhoneNumber) {
       this.transferForm.patchValue({ receiverPhoneNumber: this.receiverPhoneNumber });
     }
 
-    // Récupérer le numéro de téléphone de l'utilisateur actuel
     this.userService.getCurrentUser().subscribe({
       next: (response) => {
         this.senderPhoneNumber = response.data.phoneNumber;
@@ -47,15 +51,20 @@ export class TransferComponent implements OnInit {
     });
   }
 
+  updateTotalAmount() {
+    const amount = parseFloat(this.transferForm.get('amount')?.value) || 0;
+    const fees = parseFloat(this.transferForm.get('fees')?.value) || 0;
+    this.totalAmount = amount + fees;
+  }
+
   onSubmitTransfer() {
     if (this.transferForm.valid && this.senderPhoneNumber) {
-
       const formData: TransferFormData = {
         ...this.transferForm.value,
-        senderPhoneNumber: this.senderPhoneNumber  // Ajoutez le numéro de téléphone de l'expéditeur ici
+        senderPhoneNumber: this.senderPhoneNumber
       };
 
-      console.log(formData)
+      console.log(formData);
       this.transactionService.createTransfer(formData).subscribe({
         next: () => {
           this.onSuccess.emit(formData);

@@ -8,8 +8,7 @@ import {DatePipe} from '@angular/common';
     DatePipe
   ],
   template: `
-    <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0">
-      <h1 class="text-xl md:text-2xl font-bold">Tableau de bord administrateur</h1>
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 p-2 md:space-y-0">
       <div class="text-xs md:text-sm text-gray-500">
         Dernière mise à jour: {{ now | date:'dd/MM/yyyy HH:mm' }}
       </div>

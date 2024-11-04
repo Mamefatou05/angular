@@ -17,7 +17,7 @@ import {CurrencyPipe, NgClass} from '@angular/common';
         </div>
         <div class="ml-4">
           <h2 class="text-gray-600 text-sm">{{ title }}</h2>
-          <p class="text-2xl font-semibold">{{ value | currency:currencyCode }}</p>
+          <p class="text-2xl font-semibold">{{ value  }}</p>
         </div>
       </div>
     </div>

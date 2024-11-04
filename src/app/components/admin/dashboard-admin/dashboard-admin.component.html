@@ -1,23 +1,23 @@
 <div class="bg-gray-100 flex items-center justify-center p-4">
   <ng-container *ngIf="!loading; else loadingTemplate">
     <!-- Carte flottante centrée et élargie avec une hauteur personnalisée -->
-    <div class="bg-white shadow-2xl rounded-lg p-6 w-full">
+    <div class="  rounded-lg p-6 w-full">
       <!-- En-tête -->
       <app-header [now]="now"></app-header>
 
-      <!-- Cartes de statistiques
+      <!-- Cartes de statistiques-->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8">
         <app-stat-card title="Utilisateurs totaux" [value]="stats.totalUsers" iconBgClass="bg-blue-100"></app-stat-card>
         <app-stat-card title="Utilisateurs actifs" [value]="stats.activeUsers" bgColorClass="bg-green-100"></app-stat-card>
         <app-stat-card title="Transactions" [value]="stats.totalTransactions" bgColorClass="bg-purple-100"></app-stat-card>
-        <app-stat-card title="Revenus" [value]="stats.revenue" bgColorClass="bg-yellow-100" currencyCode="EUR"></app-stat-card>
+        <app-stat-card title="Agents" [value]="stats.totalAgent" bgColorClass="bg-yellow-100"></app-stat-card>
+
       </div>
--->
+
       <!-- Actions rapides -->
-      <app-quick-actions></app-quick-actions>
+      <app-quick-create></app-quick-create>
 
       <!-- Liste des transactions -->
-      <app-transaction-list></app-transaction-list>
     </div>
   </ng-container>
 

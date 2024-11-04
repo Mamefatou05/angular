@@ -59,6 +59,44 @@
           </div>
         </div>
 
+        <!-- Fees Input -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">
+            Frais
+          </label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">€</span>
+            <input
+              type="number"
+              formControlName="fees"
+              class="block w-full pl-8 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+              placeholder="0.00"
+              min="0"
+              step="0.01"
+            >
+            <div *ngIf="transferForm.get('fees')?.touched && transferForm.get('fees')?.invalid"
+                 class="text-red-500 text-sm mt-1">
+              Les frais doivent être supérieurs ou égaux à 0
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Amount (Read-only) -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">
+            Montant total (avec frais)
+          </label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">€</span>
+            <input
+              type="number"
+              [value]="totalAmount"
+              class="block w-full pl-8 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 cursor-not-allowed"
+              readonly
+            >
+          </div>
+        </div>
+
         <!-- Description Input -->
         <div class="space-y-2">
           <label class="block text-sm font-medium text-gray-700">
